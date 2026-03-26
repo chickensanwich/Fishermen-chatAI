@@ -32,6 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize the application
     initApp();
+
+    // Dark mode
+   const darkToggle = document.getElementById('dark-toggle');
+   if (darkToggle) {
+   const isDark = localStorage.getItem('darkMode') === 'true';
+   document.documentElement.classList.toggle('dark', isDark);
+   darkToggle.addEventListener('click', () => {
+   document.documentElement.classList.toggle('dark');
+   localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+    });
+}
+
     
     // Event Listeners
     if (loginForm) loginForm.addEventListener('submit', handleLogin);
@@ -173,7 +185,10 @@ function showChatInterface(user) {
 async function handleChatSubmit(e) {
     e.preventDefault();
     
-    const message = chatInput.value.trim();
+    let message = chatInput.value.trim();
+    // Sanitize: Escape HTML/JS to prevent XSS
+    message = message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
     if (!message) return;
     
     // Add user message to chat
@@ -508,6 +523,25 @@ function updateChatHistoryUI() {
         document.querySelector('.chat-item').classList.add('active');
     }
 }
+// Export chat
+document.getElementById('export-chat').addEventListener('click', () => {
+  const chatHistory = getChatHistory();
+  if (!chatHistory.length) {
+    alert('No chat history to export. Start a conversation first.');
+    return;
+  }
+  const currentChat = chatHistory[0];
+  const safeTitle = (currentChat.title || 'chat').replace(/[^a-z0-9]/gi, '_');
+  const dataStr = JSON.stringify(currentChat, null, 2);
+  const blob = new Blob([dataStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `fishermen-chat-${safeTitle}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
 
 function searchChatHistory() {
     const searchTerm = document.getElementById('search-chats').value.toLowerCase();

@@ -105,6 +105,9 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="user-name" id="user-name-display">User Name</div>
+                <button id="dark-toggle" class="dark-toggle" title="Toggle dark mode">
+                   <i class="fas fa-moon"></i>
+                </button>
                 <button class="logout-btn" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
@@ -123,6 +126,9 @@
                         <textarea id="chat-input" placeholder="Type your message here..." rows="1"></textarea>
                         <button type="submit" class="send-btn">
                             <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button type="button" id="export-chat" class="export-btn" title="Export chat">
+                        <i class="fas fa-download"></i>
                         </button>
                     </div>
                 </form>

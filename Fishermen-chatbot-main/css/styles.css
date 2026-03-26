@@ -813,3 +813,27 @@ textarea:focus {
         font-size: 16px;
     }
 }
+/* Dark mode vars */
+:root.dark {
+  --background-color: #121212;
+  --background-secondary: #1e1e1e;
+  --text-color: #e8eaed;
+  --text-secondary: #9aa0a6;
+  --border-color: #333;
+}
+.dark-toggle {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  transition: 0.3s;
+}
+.dark-toggle:hover { color: var(--primary-color); transform: scale(1.1); }
+
+.export-btn {
+  background: none; border: none; color: var(--text-secondary);
+  cursor: pointer; font-size: 18px; padding: 8px; transition: 0.3s;
+}
+.export-btn:hover { color: var(--secondary-color); transform: scale(1.2); }
